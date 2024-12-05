@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 
 import CharacterCard from "./character-card"
@@ -6,9 +6,7 @@ import { useAppDispatch, useAppSelector } from "../store/store"
 import { fetchCharacters } from "../model/character/api"
 
 export default function CharacterList() {
-  // const [page, setPage] = useState<number>(1)
-  // const [search, setSearch] = useState<string>('')
-  // const [active, setActive] = useState(1)
+  const [search, setSearch] = useState<string>('')
 
   const { characters, isLoading, error } = useAppSelector((state) => state.characters)
   const dispatch = useAppDispatch()
@@ -17,13 +15,13 @@ export default function CharacterList() {
     fetchCharacters(dispatch)
   }, [])
 
+  const searchedCharacters = characters.filter(character => {
+    return character.name.toLowerCase().includes(search.toLocaleLowerCase())
+  })
 
-  // const totalPages = characters?.info.pages ?? 1
-  // const arrayForPaggintaion = Array.from({ length: totalPages }, (_, i) => i + 1)
-
-  // const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-  //   setSearch(e.target.value)
-  // }
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value)
+  }
 
   if (isLoading) return <div>Загрузка...</div>;
   if (error) return <div>Ошибка: {error}</div>;
@@ -36,6 +34,8 @@ export default function CharacterList() {
         <div className="flex justify-between items-center">
           <input
             type="text"
+            value={search}
+            onChange={handleChange}
             placeholder="Поиск по имени"
             className="p-2 bg-slate-300 rounded-xl"
           />
@@ -45,7 +45,7 @@ export default function CharacterList() {
         </div>
 
         <div className="w-full flex flex-wrap justify-between gap-4">
-          {characters?.map(character => (
+          {searchedCharacters?.map(character => (
             <CharacterCard
               key={character.id}
               character={character}
@@ -53,19 +53,6 @@ export default function CharacterList() {
           )
           )}
         </div>
-
-        {/* <div className="flex justify-center gap-2">
-          {arrayForPaggintaion.map(el =>
-            <button
-              key={el}
-              onClick={() => { setPage(el); setActive(el) }}
-              disabled={el === page}
-              className={`p-2 rounded-full ${el === active ? 'bg-amber-200' : 'bg-zinc-400'}`}
-            >
-              {el}
-            </button>
-          )}
-        </div> */}
       </div>
     </section>
   )

@@ -2,6 +2,7 @@ import { createBrowserRouter, Outlet, redirect } from "react-router-dom";
 import CharacterList from "./components/character-list";
 import CharacterForm from "./components/character-form";
 import CharacterDetails from "./components/character-details";
+import NotFound from "./components/not-found";
 
 export const router = createBrowserRouter([
   {
@@ -30,7 +31,15 @@ export const router = createBrowserRouter([
       {
         path: '/create-product',
         element: <CharacterForm />
-      }
-    ]
+      },
+    ],
+  },
+  {
+    path: '/404',
+    element: <NotFound />,
+  },
+  {
+    path: '*',
+    element: <NotFound />,
   }
 ])

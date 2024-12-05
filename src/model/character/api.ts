@@ -12,7 +12,6 @@ export const fetchCharacters = async (dispatch: AppDispatch): Promise<void> => {
     if (!response.ok) {
       throw new Error(`Статус: ${response.status}`)
     }
-
     const result: CharacterResponse = await response.json()
     dispatch(setAllCharacters(result.results))
   } catch (error) {
