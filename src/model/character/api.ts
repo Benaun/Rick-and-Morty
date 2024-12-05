@@ -1,5 +1,5 @@
 import { AppDispatch } from "../../store/store"
-import { getAllCharacters, getCharacterById, setError, setLoading } from "./characte.slice"
+import { setAllCharacters, getCharacterById, setError, setLoading } from "./characte.slice"
 import { Character, CharacterResponse } from "./interfaces"
 
 const URL = 'https://rickandmortyapi.com/api/character'
@@ -14,7 +14,7 @@ export const fetchCharacters = async (dispatch: AppDispatch): Promise<void> => {
     }
 
     const result: CharacterResponse = await response.json()
-    dispatch(getAllCharacters(result.results))
+    dispatch(setAllCharacters(result.results))
   } catch (error) {
     if (error instanceof Error) {
       console.error('Произошла ошибка при загрузке персонажей:', error);

@@ -12,7 +12,7 @@ const characterSlice = createSlice({
   name: 'characters',
   initialState,
   reducers: {
-    getAllCharacters(state, action: PayloadAction<Character[]>) {
+    setAllCharacters(state, action: PayloadAction<Character[]>) {
       state.characters = action.payload.map((character) => ({
         ...character,
         inFavorite: false
@@ -62,7 +62,7 @@ const characterSlice = createSlice({
 })
 
 export const {
-  getAllCharacters,
+  setAllCharacters,
   getCharacterById,
   addCharacter,
   editCharacter,

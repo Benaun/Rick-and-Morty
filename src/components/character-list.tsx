@@ -44,7 +44,7 @@ export default function CharacterList() {
           </Link>
         </div>
 
-        <div className="w-full flex flex-wrap justify-between">
+        <div className="w-full flex flex-wrap justify-between gap-4">
           {characters?.map(character => (
             <CharacterCard
               key={character.id}
