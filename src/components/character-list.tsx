@@ -3,8 +3,7 @@ import { Link } from "react-router-dom"
 
 import CharacterCard from "./character-card"
 import { useAppDispatch, useAppSelector } from "../store/store"
-import { getAllCharacters, setError, setLoading } from "../model/character/characte.slice"
-import { CharacterResponse } from "../model/character/interfaces"
+import { fetchCharacters } from "../model/character/api"
 
 export default function CharacterList() {
   // const [page, setPage] = useState<number>(1)
@@ -14,30 +13,9 @@ export default function CharacterList() {
   const { characters, isLoading, error } = useAppSelector((state) => state.characters)
   const dispatch = useAppDispatch()
 
-  const URL = 'https://rickandmortyapi.com/api/character'
-
   useEffect(() => {
-    const fetchCharacters = async () => {
-      dispatch(setLoading(true))
-      dispatch(setError(null))
-      try {
-        const response: Response = await fetch(URL)
-        if (!response.ok) {
-          throw new Error(`Статус: ${response.status}`)
-        }
-
-        const result: CharacterResponse = await response.json()
-        dispatch(getAllCharacters(result.results))
-      } catch (error) {
-        if (error instanceof Error) {
-          console.error('Произошла ошибка при загрузке персонажей:', error);
-          dispatch(setError(error.message))
-        }
-        dispatch(setLoading(false))
-      }
-    }
-    fetchCharacters()
-  }, [dispatch])
+    fetchCharacters(dispatch)
+  }, [])
 
 
   // const totalPages = characters?.info.pages ?? 1
@@ -70,7 +48,7 @@ export default function CharacterList() {
           {characters?.map(character => (
             <CharacterCard
               key={character.id}
-              characterId={character.id}
+              character={character}
             />
           )
           )}

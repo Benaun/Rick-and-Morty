@@ -4,7 +4,7 @@ import { Character, CharacterResponse } from "./interfaces"
 
 const URL = 'https://rickandmortyapi.com/api/character'
 
-export const fetchCharacters = async (dispatch: AppDispatch) => {
+export const fetchCharacters = async (dispatch: AppDispatch): Promise<void> => {
   dispatch(setLoading(true))
   dispatch(setError(null))
   try {
@@ -24,11 +24,11 @@ export const fetchCharacters = async (dispatch: AppDispatch) => {
   }
 }
 
-export const fetchCurrentCharacter = async (id: number, dispatch: AppDispatch) => {
+export const fetchCurrentCharacter = async (id: number, dispatch: AppDispatch): Promise<void> => {
   dispatch(setLoading(true))
   dispatch(setError(null))
   try {
-    const response: Response = await fetch(`URL/${id}`)
+    const response: Response = await fetch(`${URL}/${id}`)
     if (!response.ok) {
       throw new Error(`Статус: ${response.status}`)
     }

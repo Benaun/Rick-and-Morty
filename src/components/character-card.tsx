@@ -1,9 +1,8 @@
 import { Link } from "react-router-dom";
-import { useAppSelector } from "../store/store";
+import { Character } from "../model/character/interfaces";
 
-export default function CharacterCard({ characterId }: { characterId: number }) {
+export default function CharacterCard({ character }: { character: Character }) {
 
-  const character = useAppSelector((state) => state.characters.characters.find(el => el.id === characterId))
   const characterLink = String(character?.id)
 
   if (!character) return
