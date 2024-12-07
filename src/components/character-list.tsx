@@ -5,10 +5,12 @@ import CharacterCard from "./character-card"
 import { useAppDispatch, useAppSelector } from "../store/store"
 import { fetchCharacters } from "../model/character/api"
 import { Button } from "./ui/button"
+import useDebounce from "@/assets/useDebounce"
 
 export default function CharacterList() {
   const [search, setSearch] = useState<string>('')
   const [isfilterByFavorite, setIsFilterByFavorite] = useState<boolean>(false)
+  const debouncedSearch = useDebounce<string>(search, 1000)
 
   const { characters, isLoading, error } = useAppSelector((state) => state.characters)
   const dispatch = useAppDispatch()
@@ -17,16 +19,17 @@ export default function CharacterList() {
     fetchCharacters(dispatch)
   }, [])
 
-  const searchedAndFilteredCharacters = useMemo(() => {
-    const searchedCharacters = characters.filter(character => character.name.toLowerCase().includes(search.toLocaleLowerCase())
-    )
-    if (!isfilterByFavorite) return searchedCharacters
-    return searchedCharacters.filter(character => character.inFavorite === true)
-  }, [characters, search, isfilterByFavorite])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value)
   }
+
+  const searchedAndFilteredCharacters = useMemo(() => {
+    const searchedCharacters = characters.filter(character => character.name.toLowerCase().includes(debouncedSearch.toLocaleLowerCase())
+    )
+    if (!isfilterByFavorite) return searchedCharacters
+    return searchedCharacters.filter(character => character.inFavorite === true)
+  }, [characters, debouncedSearch, isfilterByFavorite])
 
   if (isLoading) return <div>Загрузка...</div>;
   if (error) return <div>Ошибка: {error}</div>;
