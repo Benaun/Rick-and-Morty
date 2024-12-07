@@ -1,6 +1,7 @@
 import { Link, useNavigate, useParams } from "react-router-dom"
-import { useAppDispatch, useAppSelector } from "../store/store";
 import { useEffect } from "react";
+
+import { useAppDispatch, useAppSelector } from "../store/store";
 import { fetchCurrentCharacter } from "../model/character/api";
 
 export default function CharacterDetails() {

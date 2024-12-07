@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import { memo, useCallback } from "react";
+
 import { Character } from "../model/character/interfaces";
 import { useAppDispatch } from "../store/store";
 import { deleteCharacted, setInFavorite } from "../model/character/characte.slice";
@@ -13,19 +15,19 @@ import {
 import { Button } from "./ui/button";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 
-export default function CharacterCard({ character }: { character: Character }) {
+function CharacterCard({ character }: { character: Character }) {
   const dispatch = useAppDispatch()
   const id = String(character?.id)
 
-  const handleToggleFavorite = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleToggleFavorite = useCallback((event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault()
     dispatch(setInFavorite({ id: character.id }))
-  }
+  }, [id])
 
-  const handleDeleteCharacter = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleDeleteCharacter = useCallback((event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault()
     dispatch(deleteCharacted({ id: character.id }))
-  }
+  }, [id])
 
   if (!character) return
 
@@ -62,3 +64,5 @@ export default function CharacterCard({ character }: { character: Character }) {
     </Link>
   )
 }
+
+export default memo(CharacterCard)
