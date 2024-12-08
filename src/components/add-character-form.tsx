@@ -17,8 +17,10 @@ export default function CharacterForm() {
     const newCharacter: Character = {
       id: Number(Date.now()),
       name: data.name,
+      species: data.species,
       status: data.status,
       gender: data.gender,
+      location: data.location,
       image: data.image,
       inFavorite: false,
     }
@@ -56,6 +58,18 @@ export default function CharacterForm() {
           type={'text'}
           placeholder={'Пол'}
           fieldName={'gender'}
+          register={register}
+        />
+        <Field
+          type={'text'}
+          placeholder={'Пол'}
+          fieldName={'gender'}
+          register={register}
+        />
+        <Field
+          type={'text'}
+          placeholder={'Вид'}
+          fieldName={'species'}
           register={register}
         />
         <Field
