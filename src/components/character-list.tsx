@@ -1,4 +1,4 @@
-import { memo, useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { Link } from "react-router-dom"
 
 import CharacterCard from "./character-card"
@@ -8,17 +8,22 @@ import { Button } from "./ui/button"
 import useDebounce from "@/assets/useDebounce"
 import { Heading } from "./ui/heading"
 
-function CharacterList() {
+export default function CharacterList() {
   const [search, setSearch] = useState<string>('')
   const [isfilterByFavorite, setIsFilterByFavorite] = useState<boolean>(false)
   const debouncedSearch = useDebounce<string>(search, 1000)
+  const [isLoading, setIsloading] = useState<boolean>(true)
 
   const { characters } = useAppSelector((state) => state.characters)
   const dispatch = useAppDispatch()
 
   useEffect(() => {
     fetchCharacters(dispatch)
+    setIsloading(false)
   }, [])
+
+  console.log('render')
+  console.log(characters)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value)
@@ -30,6 +35,8 @@ function CharacterList() {
     if (!isfilterByFavorite) return searchedCharacters
     return searchedCharacters.filter(character => character.inFavorite === true)
   }, [characters, debouncedSearch, isfilterByFavorite])
+
+  if (isLoading) return <div>Загрузка...</div>;
 
   return (
     <section className="container text-center mb-5">
@@ -70,5 +77,3 @@ function CharacterList() {
     </section >
   )
 }
-
-export default memo(CharacterList)
