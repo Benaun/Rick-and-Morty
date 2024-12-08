@@ -16,7 +16,7 @@ export default function Field({ type, fieldName, placeholder, register }: IProps
         placeholder={placeholder}
         {...register(fieldName,
           {
-            required: `${fieldName} is reqired'`
+            required: `${fieldName} is reqired`
 
           }
         )}

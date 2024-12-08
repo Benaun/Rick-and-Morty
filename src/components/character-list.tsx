@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react"
+import { memo, useEffect, useMemo, useState } from "react"
 import { Link } from "react-router-dom"
 
 import CharacterCard from "./character-card"
@@ -6,19 +6,19 @@ import { useAppDispatch, useAppSelector } from "../store/store"
 import { fetchCharacters } from "../model/character/api"
 import { Button } from "./ui/button"
 import useDebounce from "@/assets/useDebounce"
+import { Heading } from "./ui/heading"
 
-export default function CharacterList() {
+function CharacterList() {
   const [search, setSearch] = useState<string>('')
   const [isfilterByFavorite, setIsFilterByFavorite] = useState<boolean>(false)
   const debouncedSearch = useDebounce<string>(search, 1000)
 
-  const { characters, isLoading, error } = useAppSelector((state) => state.characters)
+  const { characters } = useAppSelector((state) => state.characters)
   const dispatch = useAppDispatch()
 
   useEffect(() => {
     fetchCharacters(dispatch)
   }, [])
-
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value)
@@ -31,13 +31,10 @@ export default function CharacterList() {
     return searchedCharacters.filter(character => character.inFavorite === true)
   }, [characters, debouncedSearch, isfilterByFavorite])
 
-  if (isLoading) return <div>Загрузка...</div>;
-  if (error) return <div>Ошибка: {error}</div>;
-
   return (
     <section className="container text-center mb-5">
       <div className="w-full flex flex-col gap-5">
-        <h2 className="text-4xl">Список персонажей</h2>
+        <Heading title="Список персонажей" />
         <div className="flex justify-between items-center">
           <input
             type="text"
@@ -73,3 +70,5 @@ export default function CharacterList() {
     </section >
   )
 }
+
+export default memo(CharacterList)

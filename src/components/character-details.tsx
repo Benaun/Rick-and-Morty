@@ -1,5 +1,5 @@
 import { Link, useNavigate, useParams } from "react-router-dom"
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { useAppDispatch, useAppSelector } from "../store/store";
 import { fetchCurrentCharacter } from "../model/character/api";
@@ -8,14 +8,15 @@ export default function CharacterDetails() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
-  const { currentCharacter, isLoading, error } = useAppSelector(state => state.characters)
+  const [isLoading, setIsloading] = useState<boolean>(true)
+  const { currentCharacter } = useAppSelector(state => state.characters)
 
   useEffect(() => {
     fetchCurrentCharacter(Number(id), dispatch)
+    setIsloading(false)
   }, [id])
 
   if (isLoading) return <div>Загрузка...</div>;
-  if (error) return <div>Ошибка: {error}</div>;
   if (!currentCharacter) return <div>Персонаж не найден</div>;
 
   return (

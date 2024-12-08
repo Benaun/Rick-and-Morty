@@ -23,6 +23,4 @@ export interface CharacterResponse {
 export interface CharacterState {
   characters: Character[],
   currentCharacter: Character | null,
-  isLoading: boolean,
-  error: string | null
 }

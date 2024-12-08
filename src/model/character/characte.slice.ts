@@ -4,8 +4,6 @@ import { Character, CharacterState } from "./interfaces";
 const initialState: CharacterState = {
   characters: [],
   currentCharacter: null,
-  isLoading: false,
-  error: null
 }
 
 const characterSlice = createSlice({
@@ -17,18 +15,14 @@ const characterSlice = createSlice({
         ...character,
         inFavorite: false
       }))
-      state.isLoading = false
-      state.error = null
     },
 
     getCharacterById(state, action: PayloadAction<Character>) {
       state.currentCharacter = action.payload
-      state.isLoading = false
-      state.error = null
     },
 
     addCharacter(state, action: PayloadAction<Character>) {
-      state.characters.push(action.payload)
+      state.characters.unshift(action.payload)
     },
 
     editCharacter(state, action: PayloadAction<{ id: number; data: Partial<Character> }>) {
@@ -50,14 +44,6 @@ const characterSlice = createSlice({
         character.inFavorite = !character.inFavorite
       }
     },
-
-    setLoading(state, action: PayloadAction<boolean>) {
-      state.isLoading = action.payload
-    },
-
-    setError(state, action: PayloadAction<string | null>) {
-      state.error = action.payload
-    },
   }
 })
 
@@ -68,8 +54,6 @@ export const {
   editCharacter,
   deleteCharacted,
   setInFavorite,
-  setError,
-  setLoading
 } = characterSlice.actions;
 
 export default characterSlice.reducer;
