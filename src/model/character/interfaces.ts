@@ -5,11 +5,17 @@ type Info = {
   prev: string | null
 }
 
+type Location = {
+  name: string
+}
+
 export interface Character {
   id: number,
   name: string,
   status: string,
+  species: string,
   gender: string,
+  location: Location,
   image: string,
   inFavorite: boolean
 }

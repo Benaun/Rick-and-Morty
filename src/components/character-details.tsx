@@ -1,51 +1,57 @@
-import { Link, useNavigate, useParams } from "react-router-dom"
-import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom"
+import { useEffect } from "react";
 
 import { useAppDispatch, useAppSelector } from "../store/store";
 import { fetchCurrentCharacter } from "../model/character/api";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle
+} from "./ui/card";
+import { Button } from "./ui/button";
 
 export default function CharacterDetails() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
-  const [isLoading, setIsloading] = useState<boolean>(true)
   const { currentCharacter } = useAppSelector(state => state.characters)
 
   useEffect(() => {
     fetchCurrentCharacter(Number(id), dispatch)
-    setIsloading(false)
   }, [id])
 
-  if (isLoading) return <div>Загрузка...</div>;
   if (!currentCharacter) return <div>Персонаж не найден</div>;
 
   return (
-    <div>
-      <button onClick={() => navigate('/')}>
+    <div className="flex flex-col justify-start gap-4 h-[800px] w-[600px]">
+      <Button
+        variant="outline"
+        onClick={() => navigate('/')}
+        className="w-32 bg-slate-400"
+      >
         На Главную
-      </button>
-      <div>
-        <img
-          src={currentCharacter.image}
-          alt={currentCharacter.name}
-        />
-        <div>
-          <h1>{currentCharacter.name}</h1>
-          <p>
-            <strong>Статус:</strong> {currentCharacter.status}
-          </p>
-          <p>
-            <strong>Пол:</strong> {currentCharacter.gender}
-          </p>
-
-          <div style={{ marginTop: '20px' }}>
-            <Link to={`/products/${currentCharacter.id}/edit`}>
-              <button>Редактировать</button>
-            </Link>
-          </div>
-
+      </Button>
+      <Card className="">
+        <CardHeader>
+          <CardTitle>{currentCharacter.name}</CardTitle>
+        </CardHeader>
+        <div className="flex w-full gap-3">
+          <CardContent className="w-3/5">
+            <img
+              className="rounded-xl"
+              src={currentCharacter.image}
+              alt={currentCharacter.name}
+            />
+          </CardContent>
+          <CardContent className="h-full w-2/5 flex flex-col">
+            <p><span className="underline">Status:</span> {currentCharacter.status}</p>
+            <p><span className="underline">Species:</span> {currentCharacter.species}</p>
+            <p><span className="underline">Gender:</span> {currentCharacter.gender}</p>
+            <p><span className="underline">Location:</span> {currentCharacter.location.name}</p>
+          </CardContent>
         </div>
-      </div>
+      </Card>
     </div>
   )
 }

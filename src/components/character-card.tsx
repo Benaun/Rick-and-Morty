@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { memo, useCallback } from "react";
+import { FaRegHeart, FaHeart } from "react-icons/fa";
 
 import { Character } from "../model/character/interfaces";
 import { useAppDispatch } from "../store/store";
@@ -8,12 +9,10 @@ import {
   Card,
   CardHeader,
   CardTitle,
-  CardDescription,
   CardContent,
   CardFooter
 } from "./ui/card"
 import { Button } from "./ui/button";
-import { FaRegHeart, FaHeart } from "react-icons/fa";
 
 function CharacterCard({ character }: { character: Character }) {
   const dispatch = useAppDispatch()
@@ -36,7 +35,6 @@ function CharacterCard({ character }: { character: Character }) {
       <Card className="w-[350px]">
         <CardHeader>
           <CardTitle>{character.name}</CardTitle>
-          <CardDescription>Status: {character.status}</CardDescription>
         </CardHeader>
         <CardContent>
           <img

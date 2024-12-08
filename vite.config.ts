@@ -4,6 +4,7 @@ import path from 'path'
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: '/Rick-and-Morty/',
   plugins: [react()],
   resolve: {
     alias: {
