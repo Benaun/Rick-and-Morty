@@ -22,9 +22,6 @@ export default function CharacterList() {
     setIsloading(false)
   }, [])
 
-  console.log('render')
-  console.log(characters)
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value)
   }

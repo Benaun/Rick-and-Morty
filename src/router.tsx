@@ -29,7 +29,7 @@ export const router = createBrowserRouter([
         element: <CharacterDetails />
       },
       {
-        path: '/create-product',
+        path: 'create-product',
         element: <CharacterForm />
       },
     ],
